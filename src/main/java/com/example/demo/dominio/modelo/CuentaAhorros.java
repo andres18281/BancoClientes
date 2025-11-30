@@ -17,34 +17,49 @@ public class CuentaAhorros extends ProductoFinanciero {
     private static final int LONGITUD_CUERPO = 8;
     private static final int LIMITE_MAXIMO_CUERPO = 100000000; // 10^8
 
-    public CuentaAhorros(Long clienteId) {
-        super(clienteId);
-        this.tipoCuenta = TipoCuenta.AHORROS;
+    
+    // Firma: Long clienteId, Long id, String numeroCuenta, Dinero saldo, EstadoCuenta estado, LocalDateTime fechaCreacion, LocalDateTime fechaModificacion, boolean exentaGMF
+    public CuentaAhorros(
+        Long clienteId, 
+        Long id, 
+        String numeroCuenta, 
+        Dinero saldo, 
+        EstadoCuenta estado, 
+        LocalDateTime fechaCreacion, 
+        LocalDateTime fechaModificacion, 
+        boolean exentaGMF
+    ) {
+        super(clienteId); // Llama al constructor base para inicializar clienteId
         
-        
-        this.estado = EstadoCuenta.ACTIVA; 
-        
-        
-        this.numeroCuenta = generarNumeroCuenta(PREFIJO_CUENTA_AHORROS); 
-        
-      
+        // Asignación de todos los campos persistidos (asumiendo que son 'protected' en ProductoFinanciero)
+        this.id = id;
+        this.numeroCuenta = numeroCuenta;
+        this.saldo = saldo;
+        this.estado = estado;
+        this.tipoCuenta = TipoCuenta.AHORROS; // Aseguramos el tipo
+        this.fechaCreacion = fechaCreacion;
+        this.fechaModificacion = fechaModificacion;
+        this.exentaGMF = exentaGMF;
     }
 
+    // Constructor de creación (el que ya tenías)
+    public CuentaAhorros(Long clienteId) {
+        super(clienteId); 
+        
+        this.tipoCuenta = TipoCuenta.AHORROS;
+        this.estado = EstadoCuenta.ACTIVA; 
+        this.numeroCuenta = generarNumeroCuenta(PREFIJO_CUENTA_AHORROS); 
+    }
     
     @Override
     public void retirar(Dinero monto) {
-        
         Dinero nuevoSaldo = this.saldo.restar(monto);
-        
-        
         if (nuevoSaldo.getMonto().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalStateException("Saldo insuficiente. La cuenta de ahorros no puede quedar en negativo.");
         }
-        
         this.saldo = nuevoSaldo;
         this.fechaModificacion = LocalDateTime.now();
     }
-    
     
     @Override
     public void cancelar() {
@@ -55,16 +70,9 @@ public class CuentaAhorros extends ProductoFinanciero {
         this.fechaModificacion = LocalDateTime.now();
     }
     
-    
-    /**
-     * Genera un número de cuenta de 10 dígitos: Prefijo (2) + Aleatorio (8).
-     * @param prefijo El prefijo de 2 dígitos (ej: "53").
-     * @return El número de cuenta generado.
-     */
     private String generarNumeroCuenta(String prefijo) {
-        
         String num = String.format("%0" + LONGITUD_CUERPO + "d", ThreadLocalRandom.current().nextInt(LIMITE_MAXIMO_CUERPO));
-
         return prefijo + num;
     }
+    
 }

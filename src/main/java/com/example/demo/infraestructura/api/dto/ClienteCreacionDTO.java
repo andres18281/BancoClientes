@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClienteCreacionDTO {
-    // Nota: El ID, fechaCreacion y fechaModificacion se generan en el Dominio
+    
     private String tipoIdentificacion;
     private String numeroIdentificacion;
     private String nombres;

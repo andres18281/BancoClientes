@@ -13,12 +13,12 @@ public abstract class ProductoFinanciero {
     public enum TipoCuenta { AHORROS, CORRIENTE }
     public enum EstadoCuenta { ACTIVA, INACTIVA, CANCELADA }
 
-    private Long id;
+    protected Long id;
     protected TipoCuenta tipoCuenta;
     protected String numeroCuenta;
     protected EstadoCuenta estado;
     protected Dinero saldo; 
-    private boolean exentaGMF;
+    protected boolean exentaGMF;
     protected LocalDateTime fechaCreacion;
     protected LocalDateTime fechaModificacion;
     protected Long clienteId; 

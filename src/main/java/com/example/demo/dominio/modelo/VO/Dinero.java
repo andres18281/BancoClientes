@@ -4,7 +4,7 @@ package com.example.demo.dominio.modelo.VO;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Objects;
+
 
 
 public final class Dinero {

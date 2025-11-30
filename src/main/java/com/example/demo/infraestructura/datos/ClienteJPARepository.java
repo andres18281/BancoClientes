@@ -1,5 +1,5 @@
 package com.example.demo.infraestructura.datos;
-
+import com.example.demo.infraestructura.datos.ClienteJPA;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
@@ -11,7 +11,11 @@ import java.util.Optional;
 public interface ClienteJPARepository extends JpaRepository<ClienteJPA, Long> {
 
     
-    Optional<ClienteJPA> findByTipoIdentificacionAndNumeroIdentificacion(String tipoId, String numeroId);
-    
+	Optional<ClienteJPA> findByNumeroIdentificacion(String numeroIdentificacion);
+    Optional<ClienteJPA> findByCorreoElectronico(String correo);
+    Optional<ClienteJPA> findByTipoIdentificacionAndNumeroIdentificacion(
+            String tipoIdentificacion, 
+            String numeroIdentificacion
+        );
     
 }

@@ -1,11 +1,16 @@
 package com.example.demo.infraestructura.adaptadores;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 
 import com.example.demo.dominio.modelo.Cliente;
+import com.example.demo.dominio.modelo.ProductoFinanciero.EstadoCuenta;
+import com.example.demo.dominio.modelo.VO.Email;
 import com.example.demo.dominio.port.out.ClienteRepositoryPort;
 import com.example.demo.infraestructura.datos.ClienteJPA;
 import com.example.demo.infraestructura.datos.ClienteJPARepository;
+import com.example.demo.infraestructura.datos.ProductoJPARepository;
 
 @Component
 public class ClienteJPAAdapter implements ClienteRepositoryPort {
@@ -80,7 +85,7 @@ public class ClienteJPAAdapter implements ClienteRepositoryPort {
     public boolean tieneProductosVinculados(Long clienteId) {
         // Lógica de DB: Contar cuántas cuentas están vinculadas a este cliente.
         // Aquí se usa el ProductoJPARepository (asumido)
-        return productoRepository.countByClienteIdAndEstadoNot(clienteId, "CANCELADA") > 0;
+    	return productoRepository.countByClienteIdAndEstadoNot(clienteId, EstadoCuenta.CANCELADA) > 0;
     }
 
     @Override

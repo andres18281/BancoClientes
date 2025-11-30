@@ -1,6 +1,6 @@
 package com.example.demo.infraestructura.api.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDate; 
 import java.time.LocalDateTime;
 import lombok.Data;
 

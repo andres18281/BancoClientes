@@ -6,15 +6,14 @@ import com.example.demo.dominio.modelo.VO.Email;
 import java.time.LocalDateTime;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-@Data // Incluye Getters, Setters, toString, equals y hashCode
-@NoArgsConstructor // Constructor sin argumentos
-@AllArgsConstructor // Constructor con todos los argumentos
+@Data
+@NoArgsConstructor 
+@AllArgsConstructor 
 public class Cliente {
 
     private Long id;
