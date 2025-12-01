@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dominio.modelo.Cliente;
 import com.example.demo.dominio.port.in.GestionClientePort;
 import com.example.demo.dominio.port.out.ClienteRepositoryPort;
+import com.example.demo.infraestructura.api.dto.ClienteModificacionDTO;
+
 
 // Implementa el puerto impulsor
 @Service
@@ -55,8 +57,22 @@ public class ClienteService implements GestionClientePort {
 
     
     @Override
-    public Cliente actualizarCliente(Cliente cliente) {
-        throw new UnsupportedOperationException("Método actualizar pendiente de implementación.");
+    public Cliente actualizarCliente(Long id, ClienteModificacionDTO dto) {
+        
+        // 1. Obtener el Cliente existente del repositorio
+        // NOTA: Usamos el 'id' recibido como parámetro, no una variable 'id' indefinida.
+        Cliente clienteExistente = clienteRepository.buscarPorId(id)
+            .orElseThrow(() -> new RuntimeException("Cliente con ID " + id + " no encontrado para modificar."));
+
+        // 2. Actualizar los campos de la entidad con la información del DTO
+        clienteExistente.setNombres(dto.getNombres());
+        clienteExistente.setApellido(dto.getApellido());
+        clienteExistente.setCorreoElectronico(dto.getCorreoElectronico());
+
+        clienteExistente.validarDatos(); 
+
+        clienteExistente.marcarComoModificado(); 
+        return clienteRepository.guardar(clienteExistente);
     }
 
     @Override

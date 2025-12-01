@@ -4,8 +4,12 @@ import com.example.demo.aplicacion.ClienteService;
 
 import com.example.demo.dominio.modelo.Cliente;
 import com.example.demo.infraestructura.api.dto.ClienteCreacionDTO;
+import com.example.demo.infraestructura.api.dto.ClienteModificacionDTO;
 import com.example.demo.infraestructura.api.dto.ClienteRespuestaDTO;
 import com.example.demo.infraestructura.mappers.ClienteMapper;
+
+import io.swagger.v3.oas.annotations.Operation;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -63,5 +67,17 @@ public class ClienteController {
     public ResponseEntity<Void> eliminarCliente(@PathVariable Long id) {
         clienteService.eliminarCliente(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    
+    @PutMapping("/{id}")
+   
+    public ResponseEntity<ClienteRespuestaDTO> modificarCliente(
+            @PathVariable Long id, 
+            @RequestBody ClienteModificacionDTO dto) {
+        
+        Cliente clienteModificado = clienteService.actualizarCliente(id, dto);
+        ClienteRespuestaDTO respuestaDTO = mapper.toRespuestaDTO(clienteModificado);
+       
+        return ResponseEntity.ok(respuestaDTO);
     }
 }
