@@ -26,7 +26,7 @@ public class Cliente {
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaModificacion;
 
-    // Constructor específico para registro (sin ID y fechas de modificación/creación)
+    
     public Cliente(String tipoIdentificacion, String numeroIdentificacion, String nombres, String apellido, Email correoElectronico, LocalDate fechaNacimiento) {
         this.tipoIdentificacion = tipoIdentificacion;
         this.numeroIdentificacion = numeroIdentificacion;
@@ -34,28 +34,28 @@ public class Cliente {
         this.apellido = apellido;
         this.correoElectronico = correoElectronico;
         this.fechaNacimiento = fechaNacimiento;
-        this.marcarComoCreado(); // Llama al método de la regla de negocio
+        this.marcarComoCreado(); 
     }
 
-    // 🔑 REGLA DE NEGOCIO: Mayoría de edad
+    
     public boolean esMayorDeEdad() {
         return Period.between(this.fechaNacimiento, LocalDate.now()).getYears() >= 18;
     }
 
-    // 🔑 REGLA DE NEGOCIO: Formato y Extensión
+    
     public void validarDatos() {
         if (nombres.length() < 2 || apellido.length() < 2) {
             throw new IllegalArgumentException("Nombre y apellido deben tener al menos 2 caracteres.");
         }
     }
     
-    // 🔑 REGLA DE NEGOCIO: Fechas automáticas (Creación)
+    
     public void marcarComoCreado() {
         this.fechaCreacion = LocalDateTime.now();
         this.fechaModificacion = LocalDateTime.now();
     }
     
-    // 🔑 REGLA DE NEGOCIO: Fechas automáticas (Modificación)
+    
     public void marcarComoModificado() {
         this.fechaModificacion = LocalDateTime.now();
     }

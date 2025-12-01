@@ -18,7 +18,7 @@ public class CuentaAhorros extends ProductoFinanciero {
     private static final int LIMITE_MAXIMO_CUERPO = 100000000; // 10^8
 
     
-    // Firma: Long clienteId, Long id, String numeroCuenta, Dinero saldo, EstadoCuenta estado, LocalDateTime fechaCreacion, LocalDateTime fechaModificacion, boolean exentaGMF
+    
     public CuentaAhorros(
         Long clienteId, 
         Long id, 
@@ -29,20 +29,20 @@ public class CuentaAhorros extends ProductoFinanciero {
         LocalDateTime fechaModificacion, 
         boolean exentaGMF
     ) {
-        super(clienteId); // Llama al constructor base para inicializar clienteId
+        super(clienteId); 
         
-        // Asignación de todos los campos persistidos (asumiendo que son 'protected' en ProductoFinanciero)
+        
         this.id = id;
         this.numeroCuenta = numeroCuenta;
         this.saldo = saldo;
         this.estado = estado;
-        this.tipoCuenta = TipoCuenta.AHORROS; // Aseguramos el tipo
+        this.tipoCuenta = TipoCuenta.AHORROS; 
         this.fechaCreacion = fechaCreacion;
         this.fechaModificacion = fechaModificacion;
         this.exentaGMF = exentaGMF;
     }
 
-    // Constructor de creación (el que ya tenías)
+    
     public CuentaAhorros(Long clienteId) {
         super(clienteId); 
         
@@ -57,7 +57,7 @@ public class CuentaAhorros extends ProductoFinanciero {
         if (nuevoSaldo.getMonto().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalStateException("Saldo insuficiente. La cuenta de ahorros no puede quedar en negativo.");
         }
-        this.saldo = nuevoSaldo;
+        this.saldo = this.saldo.restar(monto);
         this.fechaModificacion = LocalDateTime.now();
     }
     
@@ -74,5 +74,11 @@ public class CuentaAhorros extends ProductoFinanciero {
         String num = String.format("%0" + LONGITUD_CUERPO + "d", ThreadLocalRandom.current().nextInt(LIMITE_MAXIMO_CUERPO));
         return prefijo + num;
     }
+
+	@Override
+	public String getTipoProducto() {
+		
+		return "AHORROS";
+	}
     
 }

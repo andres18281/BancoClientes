@@ -19,8 +19,7 @@ import com.example.demo.dominio.port.out.CuentaRepositoryPort;
 public class CuentaService implements GestionCuentaPort {
 
     private final CuentaRepositoryPort cuentaRepository;
-    private final ClienteRepositoryPort clienteRepository; // Se necesita para validar el cliente
-
+    private final ClienteRepositoryPort clienteRepository; 
     public CuentaService(CuentaRepositoryPort cuentaRepository, ClienteRepositoryPort clienteRepository) {
         this.cuentaRepository = cuentaRepository;
         this.clienteRepository = clienteRepository;
@@ -29,11 +28,11 @@ public class CuentaService implements GestionCuentaPort {
     @Override
     public ProductoFinanciero crearCuenta(Long clienteId, TipoCuenta tipoCuenta) {
         
-        // 1. Orquestación: Validar si el cliente existe (Regla de Negocio y Seguridad)
+      
         Cliente cliente = clienteRepository.buscarPorId(clienteId)
                 .orElseThrow(() -> new IllegalArgumentException("El cliente con ID " + clienteId + " no existe."));
 
-        // 2. 🔑 Fábrica de Entidades (Dentro del Use Case o una Factory separada)
+       
         ProductoFinanciero nuevaCuenta;
         if (tipoCuenta == TipoCuenta.AHORROS) {
             nuevaCuenta = new CuentaAhorros(cliente.getId());
@@ -43,11 +42,7 @@ public class CuentaService implements GestionCuentaPort {
             throw new IllegalArgumentException("Tipo de cuenta no soportado.");
         }
         
-        // 3. Orquestación: Verificar unicidad del número de cuenta (aunque la BD lo garantiza, 
-        // a veces se revisa antes) - Depende de cómo se implemente generarNumeroCuenta().
-        // Por ahora, asumimos que el constructor de la Cuenta maneja la primera generación.
         
-        // 4. Persistencia
         return cuentaRepository.guardar(nuevaCuenta);
     }
 
@@ -55,10 +50,8 @@ public class CuentaService implements GestionCuentaPort {
     public void depositar(String numeroCuenta, Dinero monto) {
         ProductoFinanciero cuenta = buscarCuentaActivaPorNumero(numeroCuenta);
         
-        // 1. Ejecutar Regla de Dominio: El método 'depositar' está en ProductoFinanciero
         cuenta.depositar(monto);
         
-        // 2. Persistencia
         cuentaRepository.guardar(cuenta);
     }
 
@@ -66,11 +59,9 @@ public class CuentaService implements GestionCuentaPort {
     public void retirar(String numeroCuenta, Dinero monto) {
         ProductoFinanciero cuenta = buscarCuentaActivaPorNumero(numeroCuenta);
         
-        // 1. Ejecutar Regla de Dominio: El método 'retirar' está en CuentaAhorros/CuentaCorriente
-        // La validación de saldo insuficiente ocurre dentro del método retirar específico.
+        
         cuenta.retirar(monto);
         
-        // 2. Persistencia
         cuentaRepository.guardar(cuenta);
     }
 
@@ -78,11 +69,10 @@ public class CuentaService implements GestionCuentaPort {
     public void cancelarCuenta(String numeroCuenta) {
         ProductoFinanciero cuenta = buscarCuentaActivaPorNumero(numeroCuenta);
         
-        // 1. Ejecutar Regla de Dominio: El método 'cancelar' está en CuentaAhorros/CuentaCorriente
-        // La validación de Saldo Cero ocurre dentro del método cancelar específico.
+        
         cuenta.cancelar();
         
-        // 2. Persistencia
+       
         cuentaRepository.guardar(cuenta);
     }
     
@@ -91,7 +81,7 @@ public class CuentaService implements GestionCuentaPort {
     	return cuentaRepository.buscarPorNumero(numeroCuenta);
     }
     
-    // Método auxiliar común
+    
     private ProductoFinanciero buscarCuentaActivaPorNumero(String numeroCuenta) {
          ProductoFinanciero cuenta = cuentaRepository.buscarPorNumero(numeroCuenta)
             .orElseThrow(() -> new IllegalArgumentException("Cuenta " + numeroCuenta + " no encontrada."));
@@ -101,4 +91,31 @@ public class CuentaService implements GestionCuentaPort {
         }
         return cuenta;
     }
+    
+    
+    @Override
+    public ProductoFinanciero actualizarEstadoCuenta(String numeroCuenta, String nuevoEstado) {
+
+        
+        ProductoFinanciero cuenta = cuentaRepository.buscarPorNumero(numeroCuenta)
+            .orElseThrow(() -> new IllegalArgumentException("Cuenta " + numeroCuenta + " no encontrada."));
+
+       
+        if ("ACTIVA".equalsIgnoreCase(nuevoEstado)) {
+            
+            cuenta.activar();
+        } else if ("INACTIVA".equalsIgnoreCase(nuevoEstado)) {
+          
+            cuenta.inactivar();
+        } else {
+            throw new IllegalArgumentException("El estado '" + nuevoEstado + "' no es válido.");
+        }
+        
+     
+        return cuentaRepository.guardar(cuenta);
+    }
+    
+    
+    
+    
 }

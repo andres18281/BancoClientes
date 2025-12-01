@@ -15,6 +15,9 @@ public interface GestionCuentaPort {
     void retirar(String numeroCuenta, Dinero monto);
     
     void cancelarCuenta(String numeroCuenta);
+    
+    
 
     Optional<ProductoFinanciero> buscarCuentaPorNumero(String numeroCuenta);
+    ProductoFinanciero actualizarEstadoCuenta(String numeroCuenta, String nuevoEstado);
 }	

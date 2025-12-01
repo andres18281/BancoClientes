@@ -46,8 +46,49 @@ public abstract class ProductoFinanciero {
         this.estado = nuevoEstado;
         this.fechaModificacion = LocalDateTime.now();
     }
+    
+    public void activar() {
+       
+        if (EstadoCuenta.CANCELADA.equals(this.estado)) { 
+            throw new IllegalStateException("Un producto cancelado no puede ser activado.");
+        }
+        
+        
+        if (!EstadoCuenta.ACTIVA.equals(this.estado)) { 
+            this.estado = EstadoCuenta.ACTIVA; 
+            this.marcarComoModificado();
+        }
+    }
+    
+    public void inactivar() {
+        
+        if (EstadoCuenta.ACTIVA.equals(this.estado)) { 
+            this.estado = EstadoCuenta.INACTIVA; 
+            this.marcarComoModificado();
+        }
+    }
+    
+
+    protected void marcarComoModificado() {
+        this.fechaModificacion = LocalDateTime.now();
+    }
+
+    
+    public abstract String getTipoProducto();
 
     
     public abstract void retirar(Dinero monto);
-    public abstract void cancelar();
+    
+    public void cancelar() {
+        if (!this.saldo.esCero()) { 
+            throw new IllegalStateException("Solo se pueden cancelar cuentas con saldo igual a $0. Saldo actual: " + this.saldo);
+        }
+        
+        if (EstadoCuenta.CANCELADA.equals(this.estado)) {
+            throw new IllegalStateException("La cuenta ya está cancelada.");
+        }
+        
+        this.estado = EstadoCuenta.CANCELADA;
+        this.marcarComoModificado();
+    }
 }

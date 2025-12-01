@@ -12,7 +12,7 @@ import com.example.demo.dominio.port.out.ClienteRepositoryPort;
 import com.example.demo.infraestructura.api.dto.ClienteModificacionDTO;
 
 
-// Implementa el puerto impulsor
+
 @Service
 public class ClienteService implements GestionClientePort {
 

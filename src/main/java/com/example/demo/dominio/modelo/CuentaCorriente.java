@@ -50,7 +50,12 @@ public class CuentaCorriente extends ProductoFinanciero {
     @Override
     public void retirar(Dinero monto) {
         
-        this.saldo = this.saldo.restar(monto); 
+    	if (this.saldo.restar(monto).getMonto().compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalStateException("Saldo insuficiente en la cuenta corriente.");
+        }
+        
+        this.saldo = this.saldo.restar(monto);
+        this.marcarComoModificado();
         this.fechaModificacion = LocalDateTime.now();
     }
     
@@ -69,4 +74,10 @@ public class CuentaCorriente extends ProductoFinanciero {
         String num = String.format("%0" + LONGITUD_CUERPO + "d", ThreadLocalRandom.current().nextInt(LIMITE_MAXIMO_CUERPO));
         return prefijo + num;
     }
+
+	@Override
+	public String getTipoProducto() {
+
+		return "AHORROS";
+	}
 }

@@ -1,7 +1,7 @@
 package com.example.demo.dominio.modelo;
 
 
-import java.time.LocalDateTime; // Debe aparecer una sola vez
+import java.time.LocalDateTime; 
 
 import com.example.demo.dominio.modelo.VO.Dinero;
 
@@ -48,16 +48,16 @@ public class Transaccion {
             this.numeroCuentaDestino = numeroCuentaDestino;
         }
 
-        // --- 🔑 CONSTRUCTOR 2: CREACIÓN SIMPLE (Consignación/Retiro) ---
+       
         /**
          * Constructor para crear una transacción simple (consignación o retiro).
          * @param cuentaAfectada Es la cuenta de origen (retiro) o destino (consignación).
          */ 
         public Transaccion(TipoTransaccion tipo, Dinero monto, String cuentaAfectada) {
-            this.id = null; // Se establecerá al guardar en BD
+            this.id = null; 
             this.tipo = tipo;
             this.monto = monto;
-            this.fecha = LocalDateTime.now(); // Fecha y hora de la creación
+            this.fecha = LocalDateTime.now();
             
             if (tipo == TipoTransaccion.RETIRO) {
                 this.numeroCuentaOrigen = cuentaAfectada;
@@ -66,19 +66,19 @@ public class Transaccion {
                 this.numeroCuentaOrigen = null;
                 this.numeroCuentaDestino = cuentaAfectada;
             } else {
-                // Regla de Negocio: Evitar uso incorrecto de este constructor
+               
                 throw new IllegalArgumentException("Constructor inválido para transferencia. Use el constructor de dos cuentas.");
             }
         }
 
-        // --- 🔑 CONSTRUCTOR 3: CREACIÓN DE TRANSFERENCIA ---
+       
         /**
          * Constructor para crear una transacción de transferencia (débito o crédito).
          */
         public Transaccion(TipoTransaccion tipo, Dinero monto, String cuentaOrigen, String cuentaDestino) {
             
             if (!tipo.toString().startsWith("TRANSFERENCIA")) {
-                // Regla de Negocio: Solo acepta los tipos de transferencia
+               
                 throw new IllegalArgumentException("Constructor de transferencia solo para tipos TRANSFERENCIA_.");
             }
             

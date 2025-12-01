@@ -19,6 +19,10 @@ public final class Dinero {
     }
     
     
+    public boolean esCero() {
+        return this.monto.compareTo(BigDecimal.ZERO) == 0;
+    }
+    
     public static Dinero of(BigDecimal monto) {
         return new Dinero(monto);
     }
