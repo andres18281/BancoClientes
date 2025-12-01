@@ -1,5 +1,7 @@
 package com.example.demo.dominio.port.in;
 
+import java.util.Optional;
+
 import com.example.demo.dominio.modelo.ProductoFinanciero;
 import com.example.demo.dominio.modelo.ProductoFinanciero.TipoCuenta;
 import com.example.demo.dominio.modelo.VO.Dinero;
@@ -14,5 +16,5 @@ public interface GestionCuentaPort {
     
     void cancelarCuenta(String numeroCuenta);
 
-    ProductoFinanciero buscarCuentaPorNumero(String numeroCuenta);
-}
+    Optional<ProductoFinanciero> buscarCuentaPorNumero(String numeroCuenta);
+}	

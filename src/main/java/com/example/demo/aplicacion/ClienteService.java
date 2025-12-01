@@ -1,5 +1,7 @@
 package com.example.demo.aplicacion;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -47,8 +49,6 @@ public class ClienteService implements GestionClientePort {
             log.warn("Intento de eliminación fallida. Cliente {} tiene productos vinculados.", id);
             throw new IllegalStateException("No se puede eliminar un cliente con productos vinculados.");
         }
-        
-        
         clienteRepository.eliminar(id);
         log.info("Cliente {} eliminado exitosamente.", id);
     }
@@ -56,13 +56,12 @@ public class ClienteService implements GestionClientePort {
     
     @Override
     public Cliente actualizarCliente(Cliente cliente) {
-        
         throw new UnsupportedOperationException("Método actualizar pendiente de implementación.");
     }
 
     @Override
-    public Cliente buscarClientePorId(Long id) {
-       
-        throw new UnsupportedOperationException("Método buscar pendiente de implementación.");
+    public Optional<Cliente> buscarClientePorId(Long id) {
+    	return clienteRepository.buscarPorId(id);
+        
     }
 }

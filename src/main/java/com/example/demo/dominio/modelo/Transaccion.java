@@ -52,7 +52,7 @@ public class Transaccion {
         /**
          * Constructor para crear una transacción simple (consignación o retiro).
          * @param cuentaAfectada Es la cuenta de origen (retiro) o destino (consignación).
-         */
+         */ 
         public Transaccion(TipoTransaccion tipo, Dinero monto, String cuentaAfectada) {
             this.id = null; // Se establecerá al guardar en BD
             this.tipo = tipo;

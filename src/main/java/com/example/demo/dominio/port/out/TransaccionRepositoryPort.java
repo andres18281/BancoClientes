@@ -8,7 +8,7 @@ import com.example.demo.dominio.modelo.Transaccion;
 public interface TransaccionRepositoryPort {
  
  Transaccion guardar(Transaccion transaccion);
- 
+  
 
  List<Transaccion> guardarMultiples(List<Transaccion> transacciones); 
  

@@ -12,4 +12,4 @@ public class TransaccionRespuestaDTO {
     private LocalDateTime fecha;
     private String numeroCuentaOrigen;
     private String numeroCuentaDestino;
-}
+} 

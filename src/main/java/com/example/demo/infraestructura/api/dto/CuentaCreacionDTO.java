@@ -14,5 +14,5 @@ public class CuentaCreacionDTO {
     private Long clienteId; 
     
     // Tipo de cuenta a crear: AHORROS o CORRIENTE
-    private TipoCuenta tipoCuenta; 
-}
+    private String tipoCuenta; 
+} 

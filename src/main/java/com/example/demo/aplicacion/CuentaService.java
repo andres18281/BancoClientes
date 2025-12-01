@@ -1,5 +1,7 @@
 package com.example.demo.aplicacion;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dominio.modelo.Cliente;
@@ -85,9 +87,8 @@ public class CuentaService implements GestionCuentaPort {
     }
     
     @Override
-    public ProductoFinanciero buscarCuentaPorNumero(String numeroCuenta) {
-        return cuentaRepository.buscarPorNumero(numeroCuenta)
-            .orElseThrow(() -> new IllegalArgumentException("Cuenta " + numeroCuenta + " no encontrada."));
+    public Optional<ProductoFinanciero> buscarCuentaPorNumero(String numeroCuenta) {
+    	return cuentaRepository.buscarPorNumero(numeroCuenta);
     }
     
     // Método auxiliar común

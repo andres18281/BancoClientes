@@ -10,7 +10,7 @@ public class TransaccionMapper {
 
     /**
      * Convierte la Entidad de Dominio a DTO de respuesta.
-     */
+     */ 
     public TransaccionRespuestaDTO toRespuestaDTO(Transaccion dominio) {
         TransaccionRespuestaDTO dto = new TransaccionRespuestaDTO();
         dto.setId(dominio.getId());
