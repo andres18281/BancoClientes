@@ -24,12 +24,19 @@ public final class Dinero {
     }
     
     public static Dinero of(BigDecimal monto) {
-        return new Dinero(monto);
+    	if (monto == null) {
+            // Lanza la excepción si es null. Esto es la primera línea de defensa
+            // si la validación del DTO (@NotNull) falla por alguna razón.
+            throw new IllegalArgumentException("El monto base para Dinero no puede ser nulo."); 
+        }
+        return new Dinero(monto); // Llama al constructor privado
     }
     
     public static Dinero of(double monto) {
         return new Dinero(BigDecimal.valueOf(monto));
     }
+    
+    
     
    
     public Dinero() {

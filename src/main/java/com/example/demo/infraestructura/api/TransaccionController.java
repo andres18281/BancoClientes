@@ -17,7 +17,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
@@ -58,7 +57,7 @@ public class TransaccionController {
     @PostMapping
     public ResponseEntity<?> realizarTransaccion(
         @Validated 
-        @RequestBody(description = "Detalles de la transacción: tipo, monto, cuentas.")
+        @RequestBody 
         TransaccionCreacionDTO dto) {
         
         Dinero monto = Dinero.of(dto.getMonto());
