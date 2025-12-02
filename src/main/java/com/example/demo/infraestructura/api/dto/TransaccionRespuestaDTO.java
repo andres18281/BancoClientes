@@ -2,8 +2,15 @@ package com.example.demo.infraestructura.api.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
  
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class TransaccionRespuestaDTO {
     private Long id;

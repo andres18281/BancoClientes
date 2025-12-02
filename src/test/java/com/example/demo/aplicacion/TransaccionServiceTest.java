@@ -130,21 +130,21 @@ class TransaccionServiceTest {
     
     @Test
     void testTransferir_debeLlamarARetirarYDepositarYGuardarTransaccion() {
-        // Arrange: No se necesita stubbing.
+        // Arrange
         
         // Act
         transaccionService.transferir(CUENTA_ORIGEN, CUENTA_DESTINO, MONTO);
 
         // Assert:
         
-        // 1. Verificar el retiro: Llamar a retirar con CUALQUIER String y CUALQUIER Dinero
-        verify(cuentaService, times(1)).retirar(anyString(), any(Dinero.class)); 
+        // 1. Verificar el retiro (sin cambios)
+        verify(cuentaService, times(1)).retirar(eq(CUENTA_ORIGEN), any(Dinero.class));
         
-        // 2. Verificar el depósito: Llamar a depositar con CUALQUIER String y CUALQUIER Dinero
-        verify(cuentaService, times(1)).depositar(anyString(), any(Dinero.class));
+        // 2. Verificar el depósito (sin cambios)
+        verify(cuentaService, times(1)).depositar(eq(CUENTA_DESTINO), any(Dinero.class));
         
-        // 3. Verificar que se guardó la transacción:
-        verify(transaccionRepository, times(1)).guardar(any(Transaccion.class)); 
+        // 3. 🔑 CLAVE: Verificar la llamada al método correcto: guardarMultiples con cualquier lista
+        verify(transaccionRepository, times(1)).guardarMultiples(anyList()); 
     }
 
     @Test

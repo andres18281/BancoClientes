@@ -1,6 +1,6 @@
 package com.example.demo.infraestructura.api.dto;
 
-import com.example.demo.dominio.modelo.ProductoFinanciero.TipoCuenta;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -6,8 +6,12 @@ import java.time.LocalDateTime;
 import com.example.demo.dominio.modelo.ProductoFinanciero.EstadoCuenta;
 import com.example.demo.dominio.modelo.ProductoFinanciero.TipoCuenta;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class CuentaRespuestaDTO {
     private Long id;
