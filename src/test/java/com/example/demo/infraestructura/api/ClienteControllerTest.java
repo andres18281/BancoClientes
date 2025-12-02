@@ -7,8 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.MediaType;
-
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.*;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -32,7 +33,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.hamcrest.Matchers.is; // Importar esto para usar is() en el content().json()
 //1. Configuración de Spring Boot Test
 
-@WebMvcTest(ClienteController.class)
+@ActiveProfiles("test")
+@WebMvcTest(
+	    controllers = ClienteController.class,
+	    // CLAVES: Excluir las configuraciones de seguridad para evitar el 401/403 en tests de controlador
+	    excludeAutoConfiguration = { SecurityAutoConfiguration.class }
+	)
+
 class ClienteControllerTest {
 
  // Simula las peticiones HTTP

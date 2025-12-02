@@ -13,9 +13,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +26,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/clientes")
+@SecurityRequirement(name = "bearerAuth")
 public class ClienteController {
 
     private final GestionClientePort gestionClientePort; 
@@ -41,22 +42,23 @@ public class ClienteController {
     // 1. POST /api/v1/clientes - Crear Cliente
     // ----------------------------------------------------------------------
     @Operation(
-        summary = "Crea un nuevo cliente en el sistema.",
-        description = "Registra un nuevo cliente con todos sus datos obligatorios."
-    )
-    @ApiResponses(value = {
-        @ApiResponse(
-            responseCode = "201", 
-            description = "Cliente creado exitosamente. Retorna el cliente registrado.",
-            content = @Content(schema = @Schema(implementation = ClienteRespuestaDTO.class))
-        ),
-        @ApiResponse(responseCode = "400", description = "Solicitud inválida (ej. datos faltantes o DTO incorrecto)."),
-        @ApiResponse(responseCode = "409", description = "Conflicto (ej. el cliente ya existe).")
-    })
+    	    summary = "Crea un nuevo cliente en el sistema.",
+    	    description = "Registra un nuevo cliente con todos sus datos obligatorios.",
+    	    security = { @SecurityRequirement(name = "bearerAuth") }
+    	)
+    	@ApiResponses(value = {
+    	    @ApiResponse(
+    	        responseCode = "201",
+    	        description = "Cliente creado exitosamente. Retorna el cliente registrado.",
+    	        content = @Content(schema = @Schema(implementation = ClienteRespuestaDTO.class))
+    	    ),
+    	    @ApiResponse(responseCode = "400", description = "Solicitud inválida."),
+    	    @ApiResponse(responseCode = "409", description = "Conflicto (el cliente ya existe).")
+    	})
     @PostMapping
     public ResponseEntity<ClienteRespuestaDTO> crearCliente(
         @Validated 
-        @RequestBody(description = "Datos del cliente a crear.")
+        @org.springframework.web.bind.annotation.RequestBody
         ClienteCreacionDTO dto) {
         
         Cliente cliente = mapper.toDominio(dto);
@@ -115,7 +117,7 @@ public class ClienteController {
     public ResponseEntity<ClienteRespuestaDTO> modificarCliente(
         @Parameter(description = "ID del cliente a modificar.")
         @PathVariable Long id, 
-        @RequestBody(description = "Nuevos datos completos del cliente.")
+        @RequestBody
         ClienteModificacionDTO dto) {
         
         Cliente clienteModificado = gestionClientePort.actualizarCliente(id, dto);
